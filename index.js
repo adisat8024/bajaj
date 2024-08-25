@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 app.use(express.json());
 
-const allowedOrigins = ['https://adisat8024.github.io/frontend111/', 'https://bajaj-i5u44gon1-aditya-guntupallis-projects.vercel.app/'];
+const allowedOrigins = ['https://adisat8024.github.io/frontend111/', 'https://bajaj-4dg2-3lvkq3jtz-aditya-guntupallis-projects.vercel.app/'];
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {
