@@ -1,37 +1,45 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+app.use(express.json());
 
-app.use(express.json()); // Middleware to parse JSON requests
 
-// POST method for /bfhl route
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type']
+}));
+
 app.post('/bfhl', (req, res) => {
-    const data = req.body.data;
-
-    // Separate numbers and alphabets
+    const { data } = req.body;
+    const user_id = "aditya_guntupalli_01032004";
+    const email = "aditya.21bce7962@vitapstudent.ac.in";
+    const roll_number = "21BCE7962";
     const numbers = data.filter(item => !isNaN(item));
     const alphabets = data.filter(item => isNaN(item));
-    const highestLowercaseAlphabet = alphabets.filter(item => /[a-z]/.test(item)).sort().pop() || "";
+    const highest_lowercase_alphabet = alphabets.filter(item => /[a-z]/.test(item)).sort().pop() || null;
 
-    // Respond with the required format
     res.json({
         is_success: true,
-        user_id: "aditya-guntupalli_01032004",
-        email: "adityaguntupalli1978@gmail.com",
-        roll_number: "21BCE7962",
-        numbers: numbers,
-        alphabets: alphabets,
-        highest_lowercase_alphabet: highestLowercaseAlphabet ? [highestLowercaseAlphabet] : []
+        user_id,
+        email,
+        roll_number,
+        numbers,
+        alphabets,
+        highest_lowercase_alphabet: highest_lowercase_alphabet ? [highest_lowercase_alphabet] : []
     });
 });
 
-// GET method for /bfhl route
 app.get('/bfhl', (req, res) => {
-    res.status(200).json({
-        operation_code: 1
-    });
+    res.json({ operation_code: 1 });
 });
 
-// Start the server
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-});
+const port = 8080;
+app.listen(port, () => console.log('Server running on port ${port}'));
